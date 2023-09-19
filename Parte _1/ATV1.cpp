@@ -156,7 +156,140 @@ void localizarVeiculo(const vector<Veiculo> &veiculos, const string &placa) {
     }
 }
 
+int main() {
+    vector<Cliente> clientes;
+    vector<Veiculo> veiculos;
 
+    int opcao;
+    while (true) {
+        cout << "\nMenu de Opções:" << endl;
+        cout << "1. Gestão de Clientes" << endl;
+        cout << "2. Gestão de Veículos" << endl;
+        cout << "0. Sair" << endl;
+        cout << "Escolha uma opção: ";
+        cin >> opcao;
+
+        switch (opcao) {
+            case 1:
+                while (true) {
+                    cout << "\nMenu de Opções de Clientes:" << endl;
+                    cout << "1. Incluir Cliente" << endl;
+                    cout << "2. Excluir Cliente" << endl;
+                    cout << "3. Alterar Cliente" << endl;
+                    cout << "4. Listar Clientes" << endl;
+                    cout << "5. Localizar Cliente" << endl;
+                    cout << "0. Voltar" << endl;
+                    cout << "Escolha uma opção: ";
+                    cin >> opcao;
+
+                    switch (opcao) {
+                        case 1:
+                            incluirCliente(clientes);
+                            break;
+                        case 2:
+                            {
+                                string cpf;
+                                cout << "Digite o CPF do cliente a ser excluído: ";
+                                cin >> cpf;
+                                excluirCliente(clientes, cpf);
+                            }
+                            break;
+                        case 3:
+                            {
+                                string cpf;
+                                cout << "Digite o CPF do cliente a ser alterado: ";
+                                cin >> cpf;
+                                localizarCliente(clientes, cpf);
+                                // Implemente a alteração dos dados aqui
+                            }
+                            break;
+                        case 4:
+                            listarClientes(clientes);
+                            break;
+                        case 5:
+                            {
+                                string cpf;
+                                cout << "Digite o CPF do cliente a ser localizado: ";
+                                cin >> cpf;
+                                localizarCliente(clientes, cpf);
+                            }
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            cout << "Opção inválida. Tente novamente." << endl;
+                            break;
+                    }
+
+                    if (opcao == 0) {
+                        break;
+                    }
+                }
+                break;
+            case 2:
+                while (true) {
+                    cout << "\nMenu de Opções de Veículos:" << endl;
+                    cout << "1. Incluir Veículo" << endl;
+                    cout << "2. Excluir Veículo" << endl;
+                    cout << "3. Alterar Veículo" << endl;
+                    cout << "4. Listar Veículos" << endl;
+                    cout << "5. Localizar Veículo" << endl;
+                    cout << "0. Voltar" << endl;
+                    cout << "Escolha uma opção: ";
+                    cin >> opcao;
+
+                    switch (opcao) {
+                        case 1:
+                            incluirVeiculo(veiculos);
+                            break;
+                        case 2:
+                            {
+                                string placa;
+                                cout << "Digite a Placa do veículo a ser excluído: ";
+                                cin >> placa;
+                                excluirVeiculo(veiculos, placa);
+                            }
+                            break;
+                        case 3:
+                            {
+                                string placa;
+                                cout << "Digite a Placa do veículo a ser alterado: ";
+                                cin >> placa;
+                                localizarVeiculo(veiculos, placa);
+                                // Implemente a alteração dos dados aqui
+                            }
+                            break;
+                        case 4:
+                            listarVeiculos(veiculos);
+                            break;
+                        case 5:
+                            {
+                                string placa;
+                                cout << "Digite a Placa do veículo a ser localizado: ";
+                                cin >> placa;
+                                localizarVeiculo(veiculos, placa);
+                            }
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            cout << "Opção inválida. Tente novamente." << endl;
+                            break;
+                    }
+
+                    if (opcao == 0) {
+                        break;
+                    }
+                }
+                break;
+            case 0:
+                cout << "Saindo do programa." << endl;
+                return 0;
+            default:
+                cout << "Opção inválida. Tente novamente." << endl;
+                break;
+        }
+    }
 
     return 0;
 }
