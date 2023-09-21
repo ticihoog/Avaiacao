@@ -15,8 +15,10 @@ void rentalMenu(vector<Rental> &rentals, vector<Car> &cars, vector<Client> &cust
         cout << " ----- Menu Carros ----- " << endl
              << endl
              << "1 - Incluir Locação" << endl
-             << "2 - Listar Locações" << endl
-             << "3 - Sair" << endl
+             << "2 - Exlcuir Locação" << endl
+             << "3 - Alterar Dados Locação" << endl
+             << "4 - Listar Locações" << endl
+             << "5 - Sair" << endl
              << endl;
 
         cout << "Selecione a opção: ";
@@ -53,6 +55,34 @@ void rentalMenu(vector<Rental> &rentals, vector<Car> &cars, vector<Client> &cust
         break;
         case 2:
         {
+            if (!rentals.empty())
+            {
+
+                deleteRental(rentals);
+            }
+            else
+            {
+                cout << "Não há alocações cadastrados!!!";
+            }
+        }
+        break;
+
+        case 3:
+        {
+            if (!rentals.empty())
+            {
+
+                updateRental(rentals, cars);
+            }
+            else
+            {
+                cout << "Não há alocações cadastrados!!!";
+            }
+        }
+        break;
+
+        case 4:
+        {
             if (rentals.empty())
             {
                 cout << "Não alocações cadastradas!!!" << endl;
@@ -62,14 +92,14 @@ void rentalMenu(vector<Rental> &rentals, vector<Car> &cars, vector<Client> &cust
                 showRentals(rentals);
         }
         break;
-        case 3:
+        case 5:
             break;
         default:
             cout << "Opção inválida!!!" << endl
                  << endl;
             sleep(3);
         }
-    } while (option != 3);
+    } while (option != 5);
 }
 
 Rental registerRental(vector<Client> &customers, vector<Car> &cars)
@@ -209,5 +239,155 @@ void showRentals(const vector<Rental> &rentals)
         showDateCar(rental.withdrawalRentalDate, rental.hourWithdrawRentalDate);
         cout << "Entrega: ";
         showDateCar(rental.returnRentalDate, rental.hourReturnRentalDate);
+    }
+}
+
+void deleteRental(vector<Rental> &rentals)
+{
+    string carPlate;
+    bool carPlateVerify;
+
+    cout << endl;
+    cout << "Digite a placa do carro: (XXX-XXX): ";
+    cin.ignore();
+    getline(cin, carPlate);
+    carPlateVerify = plateVerification(carPlate);
+
+    if (carPlateVerify)
+    {
+
+        for (const Rental &rental : rentals)
+        {
+            if (rental.carData.carPlate == carPlate)
+            {
+                cout << "Nome do Carro: " << rental.carData.name << endl
+                     << "Renavam: " << rental.carData.renavam << endl
+                     << "Placa do Carro: " << rental.carData.carPlate << endl;
+                showDateCar(rental.carData.withdrawalDate, rental.carData.hourWithdrawDate);
+                showDateCar(rental.carData.returnDate, rental.carData.hourReturnDate);
+                cout << "Loja de Retirada: " << rental.carData.concessionaire << endl
+                     << endl;
+            }
+            else
+            {
+                cout << "Carro não encontrado!!!" << endl;
+            }
+        }
+
+        string CPF;
+        bool cpfVerify = false;
+
+        do
+        {
+            cout << endl;
+            cout << "CPF do Passageiro: ";
+            getline(cin, CPF);
+
+            cpfVerify = cpfVerification(CPF);
+
+            if (cpfVerify)
+            {
+                for (auto it = rentals.begin(); it != rentals.end(); ++it)
+                {
+                    if (it->clientData.CPF == CPF)
+                    {
+                        rentals.erase(it);
+                        cout << "Alocação Excluída!!" << endl;
+                        sleep(2);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                cout << "CPF inválido!!!" << endl;
+            }
+        } while (true);
+    }
+    else
+    {
+        cout << "Placa inválido!!!" << endl;
+    }
+}
+
+void updateRental(vector<Rental> &rentals, vector<Car> &cars)
+{
+    string carPlate;
+    bool carPlateVerify;
+
+    cout << endl;
+    cout << "Digite a placa do carro: (XXX-XXX): ";
+    cin.ignore();
+    getline(cin, carPlate);
+    carPlateVerify = plateVerification(carPlate);
+
+    if (carPlateVerify)
+    {
+
+        for (const Rental &rental : rentals)
+        {
+            if (rental.carData.carPlate == carPlate)
+            {
+                cout << "Nome do Carro: " << rental.carData.name << endl
+                     << "Renavam: " << rental.carData.renavam << endl
+                     << "Placa do Carro: " << rental.carData.carPlate << endl;
+                showDateCar(rental.carData.withdrawalDate, rental.carData.hourWithdrawDate);
+                showDateCar(rental.carData.returnDate, rental.carData.hourReturnDate);
+                cout << "Loja de Retirada: " << rental.carData.concessionaire << endl
+                     << endl;
+            }
+            else
+            {
+                cout << "Carro não encontrado!!!" << endl;
+            }
+        }
+
+        string CPF;
+        bool cpfVerify = false;
+
+        do
+        {
+            cout << endl;
+            cout << "CPF do Passageiro: ";
+            getline(cin, CPF);
+
+            cpfVerify = cpfVerification(CPF);
+
+            if (cpfVerify)
+            {
+                for (auto it = rentals.begin(); it != rentals.end(); ++it)
+                {
+                    if (it->clientData.CPF == CPF)
+                    {
+                        cout
+                            << "Nova Data de Entrega (DD MM YYYY HH MM): ";
+                        catchDateCar(it->returnRentalDate, it->hourReturnRentalDate);
+                        it->carData.returnDate = it->returnRentalDate;
+                        it->carData.hourReturnDate = it->hourReturnRentalDate;
+
+                        for (auto it2 = cars.begin(); it2 != cars.end(); ++it2)
+                        {
+                            if (it2->carPlate == carPlate)
+                            {
+                                it2->returnDate = it->carData.returnDate;
+                                it2->hourReturnDate = it->hourReturnRentalDate;
+                            }
+                        }
+
+                        cout << "Data alterada!!!" << endl
+                             << endl;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                cout << "CPF inválido!!!" << endl;
+            }
+        } while (true);
+    }
+    else
+    {
+        cout << "Placa inválido!!!" << endl;
     }
 }

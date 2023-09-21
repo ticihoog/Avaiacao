@@ -23,5 +23,7 @@ struct Rental
 Rental registerRental(vector<Client> &, vector<Car> &);
 void rentalMenu(vector<Rental> &, vector<Car> &, vector<Client> &);
 void showRentals(const vector<Rental> &);
+void deleteRental(vector<Rental> &);
+void updateRental(vector<Rental> &, vector<Car> &);
 
 #endif 
