@@ -24,6 +24,10 @@ struct Occurrence
 
 bool isValidPolicy(string);
 Occurrence occurrenceRegistration(vector<Occurrence> &, vector<Rental> &);
+void occurrenceMenu(vector<Occurrence> &, vector<Rental> &);
 void listOccurrencesPerClient(const vector<Occurrence> &);
+void listOccurrencesPerCar(const vector<Occurrence> &);
+void deleteOccurrence(vector<Occurrence> &);
+void updateOccurence(vector<Occurrence> &);
 
 #endif 
