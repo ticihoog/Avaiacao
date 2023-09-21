@@ -21,6 +21,9 @@ struct Occurrence
     Rental rentalOccurrence;
 };
 
-void occurrenceMenu(vector<Occurrence> &, vector<Rental> &);
+
+bool isValidPolicy(string);
+Occurrence occurrenceRegistration(vector<Occurrence> &, vector<Rental> &);
+void listOccurrencesPerClient(const vector<Occurrence> &);
 
 #endif 
